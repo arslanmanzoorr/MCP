@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Reasoning Engine - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .config-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .config-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .config-section input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .config-section input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .config-section button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .config-section button:hover {
+            background: #5568d3;
+        }
+
+        .demo-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .demo-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .question-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-question-btn {
+            background: #f0f0f0;
+            border: 2px solid #e0e0e0;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .quick-question-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #5568d3;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .result-card .label {
+            font-weight: 600;
+            color: #555;
+            margin-right: 10px;
+        }
+
+        .result-card pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .error {
+            background: #fee;
+            border-left-color: #f44336;
+            color: #c33;
+        }
+
+        .success {
+            background: #efe;
+            border-left-color: #4caf50;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-indicator.connected {
+            background: #4caf50;
+        }
+
+        .status-indicator.disconnected {
+            background: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 MCP Reasoning Engine</h1>
+            <p>A production-ready reasoning engine that combines Claude AI with Model Context Protocol (MCP) tools for structured reasoning across legal, health, and science domains.</p>
+        </div>
+
+        <div class="config-section">
+            <h2>⚙️ Configuration</h2>
+            <label for="apiUrl">Backend API URL:</label>
+            <input type="text" id="apiUrl" placeholder="https://your-api-url.railway.app or http://localhost:8000" value="http://localhost:8000">
+            <button onclick="testConnection()">Test Connection</button>
+            <div id="connectionStatus" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="demo-section">
+            <h2>💬 Ask a Question</h2>
+            <div class="quick-questions">
+                <button class="quick-question-btn" onclick="setQuestion('Is a verbal promise between friends to help move furniture enforceable?')">Legal Question</button>
+                <button class="quick-question-btn" onclick="setQuestion('What could explain occasional chest discomfort and dizziness?')">Health Question</button>
+                <button class="quick-question-btn" onclick="setQuestion('Can increased temperature explain faster reaction rates?')">Science Question</button>
+            </div>
+            <textarea class="question-input" id="questionInput" placeholder="Enter your question here..."></textarea>
+            <button class="submit-btn" onclick="askQuestion()" id="submitBtn">Ask Question</button>
+
+            <div id="loading" class="loading" style="display: none;">
+                ⏳ Processing your question...
+            </div>
+
+            <div id="results" class="results"></div>
+        </div>
+    </div>
+
+    <script>
+        function setQuestion(question) {
+            document.getElementById('questionInput').value = question;
+        }
+
+        async function testConnection() {
+            const apiUrl = document.getElementById('apiUrl').value.trim();
+            const statusDiv = document.getElementById('connectionStatus');
+            
+            if (!apiUrl) {
+                statusDiv.innerHTML = '<span class="status-indicator disconnected"></span>Please enter an API URL';
+                return;
+            }
+
+            statusDiv.innerHTML = '<span class="status-indicator"></span>Testing connection...';
+
+            try {
+                const response = await fetch(`${apiUrl}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    statusDiv.innerHTML = `<span class="status-indicator connected"></span>Connected! API is healthy.`;
+                } else {
+                    statusDiv.innerHTML = `<span class="status-indicator disconnected"></span>Connection failed: ${data.message || 'Unknown error'}`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="status-indicator disconnected"></span>Connection failed: ${error.message}`;
+            }
+        }
+
+        async function askQuestion() {
+            const question = document.getElementById('questionInput').value.trim();
+            const apiUrl = document.getElementById('apiUrl').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingDiv = document.getElementById('loading');
+            const resultsDiv = document.getElementById('results');
+
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+
+            if (!apiUrl) {
+                alert('Please enter a backend API URL');
+                return;
+            }
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            loadingDiv.style.display = 'block';
+            resultsDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(`${apiUrl}/reason`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        model: 'claude-3-haiku-20240307'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Request failed');
+                }
+
+                // Display results
+                displayResults(data);
+
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result-card error">
+                        <h3>❌ Error</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p style="margin-top: 10px; font-size: 14px;">Make sure your backend API is running and the URL is correct.</p>
+                    </div>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            
+            let html = `
+                <div class="result-card success">
+                    <h3>✅ Success!</h3>
+                    <p><span class="label">Domain:</span> ${data.domain}</p>
+                    <p><span class="label">Iterations:</span> ${data.iterations}</p>
+                    ${data.route?.matched_keywords ? `<p><span class="label">Matched Keywords:</span> ${data.route.matched_keywords.join(', ')}</p>` : ''}
+                </div>
+
+                <div class="result-card">
+                    <h3>📝 Reasoning Output</h3>
+                    <pre>${JSON.stringify(data.output, null, 2)}</pre>
+                </div>
+            `;
+
+            if (data.validation_result) {
+                html += `
+                    <div class="result-card">
+                        <h3>✅ Schema Validation</h3>
+                        <pre>${typeof data.validation_result === 'string' ? data.validation_result : JSON.stringify(data.validation_result, null, 2)}</pre>
+                    </div>
+                `;
+            }
+
+            if (data.rubric_result) {
+                html += `
+                    <div class="result-card">
+                        <h3>📊 Rubric Evaluation</h3>
+                        <pre>${typeof data.rubric_result === 'string' ? data.rubric_result : JSON.stringify(data.rubric_result, null, 2)}</pre>
+                    </div>
+                `;
+            }
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Auto-test connection on load if API URL is provided
+        window.addEventListener('load', () => {
+            const apiUrl = document.getElementById('apiUrl').value;
+            if (apiUrl && apiUrl !== 'http://localhost:8000') {
+                testConnection();
+            }
+        });
+    </script>
+</body>
+</html>
