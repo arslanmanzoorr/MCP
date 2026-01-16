@@ -247,10 +247,6 @@ See `mcp/DEPLOYMENT.md` for detailed deployment instructions including:
 - Verify your API key has access to the requested model
 - Try using `claude-3-haiku-20240307` (most widely available)
 
-## License
-
-[Specify your license here]
-
 ## Support
 
 For issues or questions, please refer to:
