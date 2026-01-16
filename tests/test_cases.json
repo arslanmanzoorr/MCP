@@ -1,0 +1,17 @@
+[
+  {
+    "id": "legal_001",
+    "domain_hint": "legal",
+    "question": "Is a verbal promise between friends to help move furniture enforceable?"
+  },
+  {
+    "id": "health_001",
+    "domain_hint": "health",
+    "question": "What could explain occasional chest discomfort and dizziness?"
+  },
+  {
+    "id": "science_001",
+    "domain_hint": "science",
+    "question": "Can increased temperature explain faster reaction rates?"
+  }
+]

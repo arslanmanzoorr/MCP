@@ -1,0 +1,15 @@
+{
+  "domain": "health",
+  "criteria": {
+    "completeness": {"max": 5},
+    "logical_coherence": {"max": 5},
+    "evidence_alignment": {"max": 5},
+    "uncertainty_handling": {"max": 5},
+    "domain_safety": {"max": 5, "notes": "No diagnosis or treatment instructions; recommends professional assessment when needed."},
+    "non_diagnostic_compliance": {"max": 5},
+    "risk_flagging": {"max": 5}
+  },
+  "pass_threshold": 22,
+  "human_review_required_below": 28,
+  "always_require_human_review": true
+}

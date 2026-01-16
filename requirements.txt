@@ -1,0 +1,7 @@
+jsonschema==4.23.0
+requests==2.32.3
+mcp
+anthropic
+fastapi
+uvicorn[standard]
+pydantic

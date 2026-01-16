@@ -1,0 +1,14 @@
+{
+  "domain": "science",
+  "criteria": {
+    "completeness": {"max": 5},
+    "logical_coherence": {"max": 5},
+    "evidence_alignment": {"max": 5},
+    "uncertainty_handling": {"max": 5},
+    "domain_safety": {"max": 5, "notes": "Avoids certainty inflation; uses tentative language."},
+    "hypothesis_separation": {"max": 5},
+    "alternative_explanations": {"max": 5}
+  },
+  "pass_threshold": 22,
+  "human_review_required_below": 26
+}

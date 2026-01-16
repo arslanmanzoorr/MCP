@@ -1,0 +1,17 @@
+{
+  "legal": {
+    "keywords": ["contract", "enforceable", "liability", "claim", "statute", "agreement", "court", "legal"],
+    "rag_paths": ["rag_docs/legal"],
+    "rubric_path": "domains/legal/rubric.json"
+  },
+  "health": {
+    "keywords": ["symptom", "pain", "dizzy", "dizziness", "medicine", "medication", "doctor", "health", "chest"],
+    "rag_paths": ["rag_docs/health"],
+    "rubric_path": "domains/health/rubric.json"
+  },
+  "science": {
+    "keywords": ["hypothesis", "experiment", "evidence", "reaction", "temperature", "mechanism", "science"],
+    "rag_paths": ["rag_docs/science"],
+    "rubric_path": "domains/science/rubric.json"
+  }
+}

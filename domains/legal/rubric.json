@@ -1,0 +1,14 @@
+{
+  "domain": "legal",
+  "criteria": {
+    "completeness": {"max": 5, "notes": "All required schema fields present and non-trivial."},
+    "logical_coherence": {"max": 5, "notes": "Steps follow logically; no contradictions."},
+    "evidence_alignment": {"max": 5, "notes": "Claims supported by given_information or stated assumptions."},
+    "uncertainty_handling": {"max": 5, "notes": "Limitations/unknowns explicitly stated."},
+    "domain_safety": {"max": 5, "notes": "Avoids overclaiming; uses cautious language when facts are missing."},
+    "rule_application": {"max": 5, "notes": "Mentions relevant principles from retrieved docs and applies to facts."},
+    "counterargument_coverage": {"max": 5, "notes": "Acknowledges alternative interpretations or counterpoints."}
+  },
+  "pass_threshold": 22,
+  "human_review_required_below": 26
+}
